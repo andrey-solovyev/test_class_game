@@ -1,10 +1,10 @@
 package com.company.Field;
 
-public class Game_field extends Cell {
+public class Game_field {
 private Cell[][] game_field=new Cell[10][10];
 
     public Game_field() {
-        this.game_field = game_field;
+
     }
 
     public Cell[][] getGame_field() {
