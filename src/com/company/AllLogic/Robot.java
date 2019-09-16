@@ -14,6 +14,7 @@ public class Robot {
         if (queue.isEmpty()){
             randomShot();
         } else {
+            /dddd
         }
     }
     private Cell randomShot(){
