@@ -14,7 +14,6 @@ public class Robot {
         if (queue.isEmpty()){
             randomShot();
         } else {
-//dsfjaska
         }
     }
     private Cell randomShot(){
