@@ -1,6 +1,7 @@
 package com.company.Field;
 
-import java.awt.*;
+
+import javafx.scene.paint.Color;
 
 public class Cell {
     private Color cell_color;
@@ -11,7 +12,7 @@ public class Cell {
     public Cell(int x, int y) {
         this.x=x;
         this.y=y;
-        this.cell_color=new Color(100, 200, 233);
+        this.cell_color=Color.LIGHTBLUE;
         this.shot=false;
     }
 

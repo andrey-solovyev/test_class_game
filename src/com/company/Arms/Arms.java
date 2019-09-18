@@ -82,13 +82,13 @@ private boolean isHit(int x,int y){
         }
         return false;
 }
-private boolean isMine(int x,int y){
-        if (getArms()[11].check(x,y)){
+public boolean isMineOrSubmarine(int x,int y){
+        if (getArms()[11].check(x,y) || getArms()[10].check(x,y)){
             return true;
         }
         return true;
 }
-private boolean isSubmarine(int x,int y){
+public boolean isSubmarine(int x,int y){
         if (getArms()[10].check(x,y)){
             return true;
         }
