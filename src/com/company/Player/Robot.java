@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
 import java.util.Random;
 import java.util.Stack;
 
-public class Robot {
+public class Robot implements Player {
     private boolean go = false;
     private Stack<Cell> queue = new Stack<>();
     private Game_field robotShot = new Game_field();
@@ -19,14 +19,14 @@ public class Robot {
     private Cell lastShot;
 
     public Cell whereShot() {
-if (!queue.isEmpty()){
-    while (game_field.getGame_field()[queue.peek().getX()-1][queue.peek().getY()-1].isShot()){
-        queue.pop();
-    }
-    return queue.peek();
-} else {
-    return randomShot();
-}
+        if (!queue.isEmpty()) {
+            while (game_field.getGame_field()[queue.peek().getX() - 1][queue.peek().getY() - 1].isShot()) {
+                queue.pop();
+            }
+            return queue.peek();
+        } else {
+            return randomShot();
+        }
     }
 
     private Cell randomShot() {
@@ -41,6 +41,11 @@ if (!queue.isEmpty()){
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean hit(Cell cell) {
+        return arms.hit(cell.getX(), cell.getY());
     }
 
     private void doQueue(int x, int y) {

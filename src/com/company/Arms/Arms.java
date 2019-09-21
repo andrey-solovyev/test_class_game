@@ -19,9 +19,10 @@ public class Arms {
     private Mine mine;
     private Submarine submarine;
     private Ship[] ships;
+    private Minesweeper minesweeper;
 
 
-    public Arms(Ship ship_4, Ship ship_3_1, Ship ship_3_2, Ship ship_2_1, Ship ship_2_2, Ship ship_2_3, Ship ship_1_1, Ship ship_1_2, Ship ship_1_3, Ship ship_1_4, Mine mine, Submarine submarine) {
+    public Arms(Ship ship_4, Ship ship_3_1, Ship ship_3_2, Ship ship_2_1, Ship ship_2_2, Ship ship_2_3, Ship ship_1_1, Ship ship_1_2, Ship ship_1_3, Ship ship_1_4, Mine mine, Submarine submarine,Minesweeper minesweeper) {
         this.ship_4 = ship_4;
         this.ship_3_1 = ship_3_1;
         this.ship_3_2 = ship_3_2;
@@ -34,6 +35,7 @@ public class Arms {
         this.ship_1_4 = ship_1_4;
         this.mine = mine;
         this.submarine = submarine;
+        this.minesweeper=minesweeper;
         getAllShip();
     }
 
@@ -93,6 +95,14 @@ public boolean isSubmarine(int x,int y){
             return true;
         }
         return false;
+}
+public void randomField(){
+        ship_4.set
+}
+private Cell[] generator(int size){
+        Cell[] cell=new Cell[size];
+        cell[0]=randomPoint();
+
 }
 private Cell randomPoint() {
     boolean check = true;

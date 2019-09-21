@@ -14,11 +14,37 @@ public class Game {
     public Game(User user, Robot robot) {
         this.user = user;
         this.robot = robot;
+        robot.createField();
     }
 
     public Game(Robot robot, Robot roborTwo) {
         this.robot = robot;
         this.roborTwo = roborTwo;
+        roborTwo.createField();
+        robot.createField();
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Robot getRobot() {
+        return robot;
+    }
+
+    public void setRobot(Robot robot) {
+        this.robot = robot;
+    }
+
+    public Robot getRoborTwo() {
+        return roborTwo;
+    }
+
+    public void setRoborTwo(Robot roborTwo) {
+        this.roborTwo = roborTwo;
+    }
 }
