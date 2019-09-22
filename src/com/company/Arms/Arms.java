@@ -96,9 +96,13 @@ public boolean isSubmarine(int x,int y){
         }
         return false;
 }
-public void randomField(){
-        ship_4.set
+public boolean isMine(int x,int y){
+        return mine.check(x,y);
 }
+public boolean isMineswepeer(int x,int y){
+        return minesweeper.check(x,y);
+}
+
 private Cell[] generator(int size){
         Cell[] cell=new Cell[size];
         cell[0]=randomPoint();

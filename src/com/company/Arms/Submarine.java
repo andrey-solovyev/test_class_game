@@ -1,6 +1,7 @@
 package com.company.Arms;
 
 import com.company.Field.Cell;
+import javafx.scene.paint.Color;
 
 import java.awt.*;
 
@@ -9,7 +10,7 @@ public class Submarine implements Common{
     public Submarine( int x, int y) {
         this.submarine = new Cell(x,y);
 
-        submarine.setCell_color(new Color(200,200,0));
+        submarine.setCell_color(Color.YELLOW);
     }
 
     public Cell getSubmarine() {

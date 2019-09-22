@@ -1,8 +1,8 @@
 package com.company.Arms;
 
 import com.company.Field.Cell;
+import javafx.scene.paint.Color;
 
-import java.awt.*;
 
 public class Ship implements Common {
 
@@ -46,7 +46,7 @@ public class Ship implements Common {
 
     public void paint(Cell[] ship){
         for (Cell cell:ship){
-            cell.setCell_color(new Color(100,200,100));
+            cell.setCell_color(Color.GREEN);
         }
     }
     public boolean check(int x,int y){

@@ -1,14 +1,14 @@
 package com.company.Arms;
 
 import com.company.Field.Cell;
+import javafx.scene.paint.Color;
 
-import java.awt.*;
 
 public class Mine implements Common  {
     private Cell Mine;
     public Mine(int x, int y) {
         this.Mine=new Cell(x,y);
-        Mine.setCell_color(new Color(200,100,100));
+        Mine.setCell_color(Color.YELLOW);
     }
 
     public Cell getMine() {
