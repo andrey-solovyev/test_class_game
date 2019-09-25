@@ -108,7 +108,7 @@ private Cell[] generator(int size){
         cell[0]=randomPoint();
 
 }
-private Cell randomPoint() {
+public Cell randomPoint() {
     boolean check = true;
     Random random = new Random();
     while (check) {

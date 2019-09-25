@@ -45,9 +45,13 @@ public class LogicGame {
             userOneGo = true;
         }
     }
-    private void move(){
-        if (userOneGo){
-           Cell cell= playerOne.whereShot();
+
+    private void move() {
+        if (userOneGo) {
+            Cell cell = playerOne.whereShot();
+            if (playerTwo.isSubarineMineOrMinesweeper(cell)) {
+                notShip(playerOne, playerTwo, cell);
+            }
         }
     }
 /*
@@ -61,13 +65,19 @@ public class LogicGame {
             }
         }
     }
+*/
 
-    public void notShip(Player player, Cell cell) {
-        if (player.isSubmarin(Cell cell)) {
-            //bla bla bla
-        } else if (player.isMine(Cell cell)) {
+ private void hit(Cell cell){
 
+ }
+    public void notShip(Player one, Player two, Cell cell) {
+        if (two.isMine(cell)) {
+            two.addCellShip(one.randomPointShip());
+        } else if (two.isSubmarin(cell)) {
+           if ( one.hit(cell)){hit(cell);}
+        } else if(two.isMineswepeer(cell)){
+            two.addMineCell(one.giveCellMine);
         }
-    }*/
+    }
 
 }

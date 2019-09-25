@@ -30,24 +30,48 @@ public class Robot implements Player {
     }
 
     private Cell randomShot() {
-        boolean shot = true;
         Random random = new Random();
-        while (shot) {
             int i = random.nextInt(10);
             int k = random.nextInt(10);
-            Cell cell = new Cell(i, k);
-            if (!cell.isShot()) {
-                return cell;
+            lastShot= new Cell(i, k);
+            if (!lastShot.isShot()) {
+                return randomShot();
             }
-        }
-        return null;
+        return lastShot;
     }
 
+    @Override
+    public boolean isSubarineMineOrMinesweeper(Cell cell){
+        if (arms.isMine(cell.getX(),cell.getY())){
+            return true;
+        } else if (arms.isSubmarine(cell.getX(),cell.getY())){
+            return true;
+              } else if (arms.isMineOrSubmarine(cell.getX(),cell.getY())){
+            return true;
+        }
+        return false;
+    }
     @Override
     public boolean hit(Cell cell) {
         return arms.hit(cell.getX(), cell.getY());
     }
 
+    @Override
+    public Cell giveMineCell(){
+        return arms.getMine().getMine();
+    }
+    @Override
+    public void addMineCell(Cell cell){
+        game_field.getGame_field()[cell.getX()-1][cell.getY()-1].setShot(true);
+    }
+    @Override
+    public void addCellShip(Cell cell){
+        doQueue(cell.getX(),cell.getY());
+    }
+    @Override
+    public Cell randomPointShip(){
+        return arms.randomPoint();
+    }
     private void doQueue(int x, int y) {
         if (x + 1 <= 20 && x - 1 >= 1 && y + 1 <= 20 && y - 1 >= 1) {
             queue.push(new Cell(x, y - 1));

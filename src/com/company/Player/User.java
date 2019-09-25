@@ -41,6 +41,15 @@ public class User implements Player {
     public boolean isMineswepeer(Cell cell){
         return arms.isMineswepeer(cell.getX(),cell.getY());
     }
+    @Override
+    public void addCellShip(Cell cell){
+        game_field.getGame_field()[cell.getX()-1][cell.getY()-1].setCell_color(Color.BLUE);
+    }
+    @Override
+    public Cell randomPointShip(){
+        return arms.randomPoint();
+    }
+
     public Arms getArms() {
         return arms;
     }

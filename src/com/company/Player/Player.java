@@ -10,5 +10,9 @@ public interface Player {
     boolean isMineswepeer(Cell cell);
    // void addCellIfцMine(Cell cell);
     Cell whereShot();
+    Cell randomPointShip();
+    void addCellShip(Cell cell);
+    void addMineCell(Cell cell);
+    Cell giveMineCell();
 
 }
