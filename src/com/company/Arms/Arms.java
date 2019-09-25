@@ -103,11 +103,7 @@ public boolean isMineswepeer(int x,int y){
         return minesweeper.check(x,y);
 }
 
-private Cell[] generator(int size){
-        Cell[] cell=new Cell[size];
-        cell[0]=randomPoint();
 
-}
 public Cell randomPoint() {
     boolean check = true;
     Random random = new Random();
@@ -125,7 +121,14 @@ public Cell randomPoint() {
     }
     return null;
 }
-
+public boolean deadAllShip(){
+        for (int i=0;i<ships.length;i++){
+            if (!ships[i].isDead()){
+                return false;
+            }
+        }
+        return true;
+}
 
     public Ship getShip_4() {
         return ship_4;

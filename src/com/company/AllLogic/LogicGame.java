@@ -11,7 +11,8 @@ import java.util.Random;
 public class LogicGame {
     private Game games;
     private boolean haveUser = false;
-    private boolean userOneGo = false;
+    private boolean playerOneGo = false;
+    private boolean playerTwoGo = false;
     private Player playerOne;
     private Player playerTwo;
 
@@ -42,41 +43,74 @@ public class LogicGame {
     private void firstHit() {
         int i = new Random().nextInt(2);
         if (i == 1) {
-            userOneGo = true;
+            playerOneGo = true;
+        } else {
+            playerTwoGo = true;
         }
     }
 
-    private void move() {
-        if (userOneGo) {
+    private void WhoIsmove() {
+        if (playerOneGo) {
             Cell cell = playerOne.whereShot();
-            if (playerTwo.isSubarineMineOrMinesweeper(cell)) {
-                notShip(playerOne, playerTwo, cell);
-            }
+            checkShot(playerOne, playerTwo, cell);
+        } else if (playerTwoGo) {
+            checkShot(playerTwo, playerOne, playerTwo.whereShot());
         }
     }
-/*
-    private void move() {
-        if (userOneGo && haveUser) {
-            Cell cell = games.getUser().whereShot();
-            if (games.getRobot().hit(cell)) {
-                if (games.getRobot().isSubarineMineOrMinesweeper(cell)) {
-                    notShip(games.getRobot(), cell);
+
+    private void checkShot(Player One, Player Two, Cell cell) {
+        if (Two.hit(cell)) {
+            if (Two.isSubarineMineOrMinesweeper(cell)) {
+                notShip(One, Two, cell);
+            } else {
+                if (!Two.allShipIsDead()){
+                    WhoIsmove();
+                } else {
+                    finish();
                 }
+
             }
         }
     }
-*/
 
- private void hit(Cell cell){
+private void finish(){
+        if (playerOneGo){
+            System.out.println("ONE IS WIN");
+        } else {
+            System.out.println("TWO IF WIN");
+        }
 
- }
+}
+
     public void notShip(Player one, Player two, Cell cell) {
         if (two.isMine(cell)) {
             two.addCellShip(one.randomPointShip());
-        } else if (two.isSubmarin(cell)) {
-           if ( one.hit(cell)){hit(cell);}
-        } else if(two.isMineswepeer(cell)){
-            two.addMineCell(one.giveCellMine);
+            if (playerOneGo){
+                playerOneGo=false;
+                playerTwoGo=true;
+            } else {
+                playerOneGo=true;
+                playerTwoGo=false;
+            }
+            WhoIsmove();
+        } else if (two.isSubmarine(cell)) {
+            if (playerOneGo){
+                playerOneGo=false;
+                playerTwoGo=true;
+            } else {
+                playerOneGo=true;
+                playerTwoGo=false;
+            }
+           checkShot(two,one,cell);
+        } else if (two.isMineswepeer(cell)) {
+            two.addMineCell(one.giveMineCell());
+            if (playerOneGo){
+                playerOneGo=false;
+                playerTwoGo=true;
+            } else {
+                playerOneGo=true;
+                playerTwoGo=false;
+            }
         }
     }
 

@@ -31,47 +31,72 @@ public class Robot implements Player {
 
     private Cell randomShot() {
         Random random = new Random();
-            int i = random.nextInt(10);
-            int k = random.nextInt(10);
-            lastShot= new Cell(i, k);
-            if (!lastShot.isShot()) {
-                return randomShot();
-            }
+        int i = random.nextInt(10);
+        int k = random.nextInt(10);
+        lastShot = new Cell(i, k);
+        if (!lastShot.isShot()) {
+            return randomShot();
+        }
         return lastShot;
     }
 
+
     @Override
-    public boolean isSubarineMineOrMinesweeper(Cell cell){
-        if (arms.isMine(cell.getX(),cell.getY())){
+    public boolean allShipIsDead(){
+        return arms.deadAllShip();
+    }
+    @Override
+    public boolean isSubarineMineOrMinesweeper(Cell cell) {
+        if (arms.isMine(cell.getX(), cell.getY())) {
             return true;
-        } else if (arms.isSubmarine(cell.getX(),cell.getY())){
+        } else if (arms.isSubmarine(cell.getX(), cell.getY())) {
             return true;
-              } else if (arms.isMineOrSubmarine(cell.getX(),cell.getY())){
+        } else if (arms.isMineOrSubmarine(cell.getX(), cell.getY())) {
             return true;
         }
         return false;
     }
+
     @Override
     public boolean hit(Cell cell) {
         return arms.hit(cell.getX(), cell.getY());
     }
 
     @Override
-    public Cell giveMineCell(){
+    public boolean isMine(Cell cell) {
+        return arms.isMine(cell.getX(), cell.getY());
+    }
+
+    @Override
+    public boolean isSubmarine(Cell cell) {
+        return arms.isSubmarine(cell.getX(), cell.getY());
+    }
+
+    @Override
+    public boolean isMineswepeer(Cell cell) {
+        return arms.isMineswepeer(cell.getX(), cell.getY());
+    }
+
+    @Override
+    public Cell giveMineCell() {
         return arms.getMine().getMine();
     }
+
     @Override
-    public void addMineCell(Cell cell){
-        game_field.getGame_field()[cell.getX()-1][cell.getY()-1].setShot(true);
+    public void addMineCell(Cell cell) {
+        game_field.getGame_field()[cell.getX() - 1][cell.getY() - 1].setShot(true);
     }
+
     @Override
-    public void addCellShip(Cell cell){
-        doQueue(cell.getX(),cell.getY());
+    public void addCellShip(Cell cell) {
+        doQueue(cell.getX(), cell.getY());
     }
+
     @Override
-    public Cell randomPointShip(){
+    public Cell randomPointShip() {
         return arms.randomPoint();
     }
+
     private void doQueue(int x, int y) {
         if (x + 1 <= 20 && x - 1 >= 1 && y + 1 <= 20 && y - 1 >= 1) {
             queue.push(new Cell(x, y - 1));
