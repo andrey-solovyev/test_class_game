@@ -18,12 +18,12 @@ public class LogicGame {
 
     //выбор игроков
     //if (robot vs robot then...) another robot vs user
-    public static void main(String[] args) {
-        // write your code here
-        System.out.println("Check robot vs user(1),or no(2)");
+
+
+    public LogicGame() {
     }
 
-    private void who() {
+    public void who() {
         if (haveUser) {
 
             Game game = new Game(new User(), new Robot());
@@ -44,73 +44,86 @@ public class LogicGame {
         int i = new Random().nextInt(2);
         if (i == 1) {
             playerOneGo = true;
+            WhoIsmove();
         } else {
             playerTwoGo = true;
+            WhoIsmove();
         }
     }
 
     private void WhoIsmove() {
         if (playerOneGo) {
             Cell cell = playerOne.whereShot();
-            checkShot(playerOne, playerTwo, cell);
+            System.out.println("One"+cell.getX()+" " +cell.getY());
+          if (checkShot(playerOne, playerTwo, cell) && !playerTwo.allShipIsDead()){
+              WhoIsmove();
+          } else {
+              if (playerTwo.allShipIsDead()){
+                  finish();
+              } else {
+                  redefinition();
+                  WhoIsmove();
+                  }
+          }
         } else if (playerTwoGo) {
-            checkShot(playerTwo, playerOne, playerTwo.whereShot());
-        }
-    }
+            Cell cell = playerTwo.whereShot();
+            System.out.println("Two"+cell.getX()+" " +cell.getY());
 
-    private void checkShot(Player One, Player Two, Cell cell) {
-        if (Two.hit(cell)) {
-            if (Two.isSubarineMineOrMinesweeper(cell)) {
-                notShip(One, Two, cell);
+            if ( checkShot(playerTwo, playerOne, cell) && !playerTwo.allShipIsDead()){
+                WhoIsmove();
             } else {
-                if (!Two.allShipIsDead()){
-                    WhoIsmove();
-                } else {
+                if (playerOne.allShipIsDead()){
                     finish();
+                } else {
+                    redefinition();
+                    WhoIsmove();
                 }
-
             }
         }
     }
 
-private void finish(){
-        if (playerOneGo){
+    private boolean checkShot(Player One, Player Two, Cell cell) {
+        if (Two.hit(cell)) {
+            if (Two.isSubarineMineOrMinesweeper(cell)) {
+                notShip(One, Two, cell);
+            } else {
+               return true;
+            }
+        }
+        return false;
+    }
+
+    private void finish() {
+        if (playerOneGo) {
             System.out.println("ONE IS WIN");
         } else {
             System.out.println("TWO IF WIN");
         }
 
-}
+    }
 
     public void notShip(Player one, Player two, Cell cell) {
         if (two.isMine(cell)) {
             two.addCellShip(one.randomPointShip());
-            if (playerOneGo){
-                playerOneGo=false;
-                playerTwoGo=true;
-            } else {
-                playerOneGo=true;
-                playerTwoGo=false;
-            }
+            redefinition();
             WhoIsmove();
         } else if (two.isSubmarine(cell)) {
-            if (playerOneGo){
-                playerOneGo=false;
-                playerTwoGo=true;
-            } else {
-                playerOneGo=true;
-                playerTwoGo=false;
-            }
-           checkShot(two,one,cell);
+            redefinition();
+            checkShot(two, one, cell);
         } else if (two.isMineswepeer(cell)) {
+            redefinition();
             two.addMineCell(one.giveMineCell());
-            if (playerOneGo){
-                playerOneGo=false;
-                playerTwoGo=true;
-            } else {
-                playerOneGo=true;
-                playerTwoGo=false;
-            }
+
+        }
+    }
+
+    private void redefinition() {
+        if (playerOneGo) {
+            playerOneGo = false;
+            playerTwoGo = true;
+        } else {
+            playerOneGo = true;
+            playerTwoGo = false;
         }
     }
 

@@ -14,42 +14,37 @@ public class Ship implements Common {
 
     public Ship(int size, int x, int y, int dx, int dy, boolean vertically) {
         this.size = size;
-        this.ships_cells = new Cell[size];
         this.vertically = vertically;
-        paint(ships_cells);
+        //paint(ships_cells);
+        this.ships_cells=new Cell[size];
         input(x, y, dx, dy);
     }
 
     private void input(int x, int y, int dx, int dy) {
         healthy = size;
         if (size == 1) {
-            ships_cells[0].setX(x);
-            ships_cells[0].setY(y);
+            ships_cells[0]=new Cell(x,y);
         } else {
-            ships_cells[0].setX(x);
-            ships_cells[0].setY(y);
-            ships_cells[size - 1].setX(dx);
-            ships_cells[size - 1].setY(dy);
+           ships_cells[0]=new Cell(x,y);
+           ships_cells[size-1]=new Cell(dx,dy);
+           if (x==dx){
+               vertically=false;
+           } else {
+               vertically=true;
+           }
         }
         for (int i = 1; i < ships_cells.length; i++) {
-            if (x == dx) {
-                vertically = true;
-                ships_cells[i].setX(x);
-                ships_cells[i].setY(y + 1);
+            if (!vertically) {
+                ships_cells[i]=new Cell(x,++y);
+
             }
-            if (y == dy) {
-                vertically = false;
-                ships_cells[i].setX(x + 1);
-                ships_cells[i].setY(y);
+            if (vertically) {
+              ships_cells[i]=new Cell(++x,y);
             }
         }
+
     }
 
-    public void paint(Cell[] ship) {
-        for (Cell cell : ship) {
-            cell.setCell_color(Color.GREEN);
-        }
-    }
 
     public boolean check(int x, int y) {
         for (int i = 0; i < ships_cells.length; i++) {

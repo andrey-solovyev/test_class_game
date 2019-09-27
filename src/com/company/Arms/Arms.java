@@ -103,8 +103,15 @@ public boolean isMineswepeer(int x,int y){
         return minesweeper.check(x,y);
 }
 
+    public Minesweeper getMinesweeper() {
+        return minesweeper;
+    }
 
-public Cell randomPoint() {
+    public void setMinesweeper(Minesweeper minesweeper) {
+        this.minesweeper = minesweeper;
+    }
+
+    public Cell randomPoint() {
     boolean check = true;
     Random random = new Random();
     while (check) {
