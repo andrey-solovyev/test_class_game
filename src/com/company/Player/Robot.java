@@ -35,8 +35,12 @@ public class Robot implements Player {
                 game_field.getGame_field()[queue.peek().getX()-1][queue.peek().getY()-1].setShot(true);
                 return lastShot = queue.pop();
             }
-          if (queue.isEmpty()){  if (howMuchShot==1){
+          if (queue.isEmpty()){
+              if (howMuchShot==1){
                 doQueue(lastShot.getX(),lastShot.getY());
+                  if (queue.isEmpty()){
+                      return randomShot();
+                  }
                 game_field.getGame_field()[lastShot.getX()-1][lastShot.getY()-1].setShot(true);
                 if (game_field.getGame_field()[queue.peek().getX()-1][queue.peek().getY()-1].isShot()){
                     queue.pop();
@@ -48,6 +52,11 @@ public class Robot implements Player {
         }
         if (!queue.isEmpty()) {
             howMuchShot=0;
+            if (queue.peek().getX()==11 ||queue.peek().getY()==11){
+                queue.pop();
+                whereShot(false);
+            }
+
             cellShot.add(queue.peek());
             game_field.getGame_field()[queue.peek().getX()-1][queue.peek().getY()-1].setShot(true);
             return lastShot = queue.pop();
@@ -70,6 +79,7 @@ private void hey(){
             return randomShot();
         }
       //  System.out.println(i+" "+k);
+
         cellShot.add(lastShot);
          game_field.getGame_field()[i][k].setShot(true);
         return lastShot;
@@ -140,64 +150,65 @@ private void hey(){
     }
 
     private void doQueue(int x, int y) {
-        if (x + 1 <= 20 && x - 1 >= 1 && y + 1 <= 20 && y - 1 >= 1 ) {
+        if (x + 1 <= 10 && x - 1 >= 1 && y + 1 <= 10 && y - 1 >= 1 ) {
             queue.push(new Cell(x, y - 1));
             queue.push(new Cell(x + 1, y));
             queue.push(new Cell(x, y + 1));
             queue.push(new Cell(x - 1, y));
-        } else if (x + 1 <= 20 && x - 1 >= 1 && y == 1) {
+        } else if (x + 1 <= 10 && x - 1 >= 1 && y == 1) {
             queue.push(new Cell(x + 1, y));
             queue.push(new Cell(x, y + 1));
             queue.push(new Cell(x - 1, y));
-        } else if (x == 20 && y + 1 <= 20 && y - 1 >= 1) {
+        } else if (x == 10 && y + 1 <= 10 && y - 1 >= 1) {
             queue.push(new Cell(x, y - 1));
             queue.push(new Cell(x, y + 1));
             queue.push(new Cell(x - 1, y));
-        } else if (y == 20 && x + 1 <= 20 && x - 1 >= 1) {
+        } else if (y == 10 && x + 1 <= 10 && x - 1 >= 1) {
             queue.push(new Cell(x, y - 1));
             queue.push(new Cell(x + 1, y));
             queue.push(new Cell(x - 1, y));
-        } else if (x == 1 && y + 1 <= 20 && y - 1 >= 1) {
+        } else if (x == 1 && y + 1 <= 10 && y - 1 >= 1) {
             queue.push(new Cell(x, y - 1));
             queue.push(new Cell(x + 1, y));
             queue.push(new Cell(x, y + 1));
             //we must check cell(20,1),(20,20),(1,20)(1,1)
-        } else if (x == 20 && y == 1) {
+        } else if (x == 10 && y == 1) {
             queue.push(new Cell(x, y + 1));
             queue.push(new Cell(x - 1, y));
-        } else if (x == 20 && y == 20) {
+        } else if (x == 10 && y == 10) {
             queue.push(new Cell(x, y - 1));
             queue.push(new Cell(x - 1, y));
-        } else if (x == 1 && y == 20) {
+        } else if (x == 1 && y == 10) {
             queue.push(new Cell(x, y - 1));
             queue.push(new Cell(x + 1, y));
         } else if (x == 1 && y == 1) {
             queue.push(new Cell(x + 1, y));
             queue.push(new Cell(x, y + 1));
         }//i do not know! TEST this queue DO NOT REMEMBER
+
     }
 
     private void anotherQueue(Cell lastShot) {
         queue.clear();
         if (lastShot.getX() == this.lastShot.getX()) {
-            if (this.lastShot.getY() + 1 != lastShot.getY() && this.lastShot.getY() != 20) {
+            if (this.lastShot.getY() + 1 != lastShot.getY() && this.lastShot.getY() != 10) {
                 queue.push(new Cell(lastShot.getX(), this.lastShot.getY() + 1));
                 if (lastShot.getY() != 1) {
                     queue.push(new Cell(lastShot.getX(), lastShot.getY() - 1));
                 }
             } else if (this.lastShot.getY() != 1) {
                 queue.push(new Cell(lastShot.getX(), this.lastShot.getY() - 1));
-                if (lastShot.getY() != 20) {
+                if (lastShot.getY() != 10) {
                     queue.push(new Cell(lastShot.getX(), lastShot.getY() + 1));
                 }
             }
         } else if (lastShot.getY() == this.lastShot.getY()) {
             if (this.lastShot.getX() - 1 != lastShot.getX() && this.lastShot.getX() != 1) {
                 queue.push(new Cell(this.lastShot.getX() - 1, this.lastShot.getY()));
-                if (lastShot.getX() != 20) {
+                if (lastShot.getX() != 10) {
                     queue.push(new Cell(lastShot.getX() + 1, lastShot.getY()));
                 }
-            } else if (this.lastShot.getX() + 1 != lastShot.getX() && this.lastShot.getX() != 20) {
+            } else if (this.lastShot.getX() + 1 != lastShot.getX() && this.lastShot.getX() != 10) {
                 queue.push(new Cell(this.lastShot.getX() + 1, this.lastShot.getY()));
                 if (lastShot.getX() != 1) {
                     queue.push(new Cell(lastShot.getX() - 1, lastShot.getY()));
