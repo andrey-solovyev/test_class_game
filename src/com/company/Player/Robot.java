@@ -9,37 +9,59 @@ import com.company.Field.Cell;
 import com.company.Field.Game_field;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
 
 public class Robot implements Player {
-    private boolean go = false;
     private Stack<Cell> queue = new Stack<>();
-    private Game_field robotShot = new Game_field();
     private Arms arms;
-    private Game_field game_field;
+    private Game_field game_field = new Game_field();
     private Color colorShot = Color.RED;
     private int howMuchShot = 0;//it is for the second shot and other
     private Cell lastShot;
+    private ArrayList<Cell> cellShot=new ArrayList<>();
 
-    public Cell whereShot() {
-     /*   if (ifHit){
-            howMuchShot++;
-            if (howMuchShot>=2){
-                anotherQueue();
+    public Cell whereShot(boolean islastShot) {
+        hey();
+        if (islastShot) {
+            howMuchShot = +1;
+            if (howMuchShot == 2) {
+                anotherQueue(cellShot.get(cellShot.size()-2));
+               if (game_field.getGame_field()[queue.peek().getX()-1][queue.peek().getY()-1].isShot()){
+                   queue.pop();
+               }
+                cellShot.add(queue.peek());
+                game_field.getGame_field()[queue.peek().getX()-1][queue.peek().getY()-1].setShot(true);
+                return lastShot = queue.pop();
             }
-        }*/
-        if (!queue.isEmpty()) {
-            while (game_field.getGame_field()[queue.peek().getX() - 1][queue.peek().getY() - 1].isShot()) {
-               lastShot= queue.pop();
-            }
-            return queue.peek();
-        } else {
-            return lastShot=randomShot();
+          if (queue.isEmpty()){  if (howMuchShot==1){
+                doQueue(lastShot.getX(),lastShot.getY());
+                game_field.getGame_field()[lastShot.getX()-1][lastShot.getY()-1].setShot(true);
+                if (game_field.getGame_field()[queue.peek().getX()-1][queue.peek().getY()-1].isShot()){
+                    queue.pop();
+                }
+                cellShot.add(queue.peek());
+                game_field.getGame_field()[queue.peek().getX()-1][queue.peek().getY()-1].setShot(true);
+                return lastShot=queue.pop();
+            }}
         }
+        if (!queue.isEmpty()) {
+            howMuchShot=0;
+            cellShot.add(queue.peek());
+            game_field.getGame_field()[queue.peek().getX()-1][queue.peek().getY()-1].setShot(true);
+            return lastShot = queue.pop();
+        }
+        howMuchShot = 0;
+        return randomShot();
     }
-
+private void hey(){
+        for (int i=0;i<queue.size();i++){
+            System.out.println(queue.get(i).getX()+"  "+queue.get(i).getY()+" ");
+        }
+}
     private Cell randomShot() {
+        queue.clear();
         Random random = new Random();
         int i = random.nextInt(10);
         int k = random.nextInt(10);
@@ -47,14 +69,18 @@ public class Robot implements Player {
         if (lastShot.isShot()) {
             return randomShot();
         }
+      //  System.out.println(i+" "+k);
+        cellShot.add(lastShot);
+         game_field.getGame_field()[i][k].setShot(true);
         return lastShot;
     }
 
 
     @Override
-    public boolean allShipIsDead(){
+    public boolean allShipIsDead() {
         return arms.deadAllShip();
     }
+
     @Override
     public boolean isSubarineMineOrMinesweeper(Cell cell) {
         if (arms.isMine(cell.getX(), cell.getY())) {
@@ -66,6 +92,7 @@ public class Robot implements Player {
 
     @Override
     public boolean hit(Cell cell) {
+
         return arms.hit(cell.getX(), cell.getY());
     }
 
@@ -96,6 +123,8 @@ public class Robot implements Player {
 
     @Override
     public void addCellShip(Cell cell) {
+        queue.clear();
+        System.out.println(cell.getX()+" "+cell.getY());
         doQueue(cell.getX(), cell.getY());
     }
 
@@ -103,27 +132,15 @@ public class Robot implements Player {
     public Cell randomPointShip() {
         return arms.randomPoint();
     }
-    public void fieldShip(){
-        Arms arms1=new Arms(new Ship(4,2,1,6,1,false),(new Ship(3,2,3,4,3,false)),new Ship(3,1,5,1,7,true),new Ship(2,19,1,10,1,true),new Ship(2,18,3,18,4,false),new Ship(2,5,5,5,6,false),new Ship(1,3,20,3,20,false),new Ship(1,18,20,18,20,false),new Ship(1,4,18,4,18,false),new Ship(1,19,17,19,17,false),new Mine(1,1),new Submarine(1,8),new Minesweeper(20,20));
-      arms=arms1;
-        /*  arms.setShip_4(new Ship(4,2,1,6,1,false));
-        arms.setShip_3_1(new Ship(3,2,3,4,3,false));
-        arms.setShip_3_2(new Ship(3,1,5,1,7,true));
-        arms.setShip_2_1(new Ship(2,19,1,10,1,true));
-        arms.setShip_2_2(new Ship(2,18,3,18,4,false));
-        arms.setShip_2_3(new Ship(2,5,5,5,6,false));
-        arms.setShip_1_1(new Ship(1,3,20,3,20,false));
-        arms.setShip_1_2(new Ship(1,18,20,18,20,false));
-        arms.setShip_1_3(new Ship(1,4,18,4,18,false));
-        arms.setShip_1_4(new Ship(1,19,17,19,17,false));
-        arms.setMine(new Mine(1,1));
-        arms.setSubmarine(new Submarine(1,8));
-        arms.setMinesweeper(new Minesweeper(20,20));
-*/
+
+    public void fieldShip() {
+        Arms arms1 =
+                new Arms(new Ship(4, 2, 1, 6, 1, false), (new Ship(3, 2, 3, 4, 3, false)), new Ship(3, 1, 5, 1, 7, true), new Ship(2, 19, 1, 10, 1, true), new Ship(2, 18, 3, 18, 4, false), new Ship(2, 5, 5, 5, 6, false), new Ship(1, 3, 20, 3, 20, false), new Ship(1, 18, 20, 18, 20, false), new Ship(1, 4, 18, 4, 18, false), new Ship(1, 19, 17, 19, 17, false), new Mine(1, 1), new Submarine(1, 8), new Minesweeper(20, 20));
+        arms = arms1;
     }
 
     private void doQueue(int x, int y) {
-        if (x + 1 <= 20 && x - 1 >= 1 && y + 1 <= 20 && y - 1 >= 1) {
+        if (x + 1 <= 20 && x - 1 >= 1 && y + 1 <= 20 && y - 1 >= 1 ) {
             queue.push(new Cell(x, y - 1));
             queue.push(new Cell(x + 1, y));
             queue.push(new Cell(x, y + 1));
@@ -160,7 +177,7 @@ public class Robot implements Player {
         }//i do not know! TEST this queue DO NOT REMEMBER
     }
 
-    private void anotherQueue() {
+    private void anotherQueue(Cell lastShot) {
         queue.clear();
         if (lastShot.getX() == this.lastShot.getX()) {
             if (this.lastShot.getY() + 1 != lastShot.getY() && this.lastShot.getY() != 20) {
@@ -234,4 +251,24 @@ public class Robot implements Player {
                 }
             }
         }*/
-
+ /*   if (ifHit){
+            howMuchShot++;
+            if (howMuchShot>=2){
+                anotherQueue();
+            }
+        }
+     Cell[] o=new Cell[queue.size()];
+     queue.toArray(o);
+     for(Cell cell:o){
+         System.out.println(cell.getX()+" "+cell.getY()+" queue" );
+     }
+        if (!queue.isEmpty()) {
+            while (game_field.getGame_field()[queue.peek().getX() - 1][queue.peek().getY() - 1].isShot()) {
+               lastShot= queue.pop();
+            }
+            lastShot=queue.peek();
+            game_field.getGame_field()[queue.peek().getX()-1][queue.peek().getY()-1].setShot(true);
+            return queue.peek();
+        } else {
+            return lastShot=randomShot();
+        }*/

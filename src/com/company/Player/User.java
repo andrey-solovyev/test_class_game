@@ -24,7 +24,8 @@ public class User implements Player {
         game_field.getGame_field()[cell.getX()][cell.getY()].setCell_color(Color.RED);
     }
 
-    public Cell whereShot() {
+    @Override
+    public Cell whereShot(boolean lastShot) {
         System.out.println("where");
         int x = scanner.nextInt();
         int y = scanner.nextInt();

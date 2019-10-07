@@ -13,6 +13,8 @@ public class LogicGame {
     private boolean haveUser = false;
     private boolean playerOneGo = false;
     private boolean playerTwoGo = false;
+    private boolean playerOneLastShot=false;
+    private boolean playerTwoLastShot=false;
     private Player playerOne;
     private Player playerTwo;
 
@@ -51,46 +53,67 @@ public class LogicGame {
         }
     }
 
-    private void WhoIsmove() {
-        if (playerOneGo) {
-            Cell cell = playerOne.whereShot();
-            System.out.println("One"+cell.getX()+" " +cell.getY());
-          if (checkShot(playerOne, playerTwo, cell) && !playerTwo.allShipIsDead()){
-              WhoIsmove();
-          } else {
-              if (playerTwo.allShipIsDead()){
-                  finish();
-              } else {
-                  redefinition();
-                  WhoIsmove();
-                  }
-          }
-        } else if (playerTwoGo) {
-            Cell cell = playerTwo.whereShot();
-            System.out.println("Two"+cell.getX()+" " +cell.getY());
+    /* private void WhoIsmove() {
+         if (playerOneGo) {
+             Cell cell = playerOne.whereShot();
+             System.out.println("One"+cell.getX()+" " +cell.getY());
+           if (checkShot(playerOne, playerTwo, cell) && !playerTwo.allShipIsDead()){
+               WhoIsmove();
+           } else {
+               if (playerTwo.allShipIsDead()){
+                   finish();
+               } else {
+                   redefinition();
+                   WhoIsmove();
+                   }
+           }
+         } else if (playerTwoGo) {
+             Cell cell = playerTwo.whereShot();
+             System.out.println("Two"+cell.getX()+" " +cell.getY());
 
-            if ( checkShot(playerTwo, playerOne, cell) && !playerTwo.allShipIsDead()){
-                WhoIsmove();
-            } else {
-                if (playerOne.allShipIsDead()){
-                    finish();
-                } else {
-                    redefinition();
-                    WhoIsmove();
-                }
+             if ( checkShot(playerTwo, playerOne, cell) && !playerTwo.allShipIsDead()){
+                 WhoIsmove();
+             } else {
+                 if (playerOne.allShipIsDead()){
+                     finish();
+                 } else {
+                     redefinition();
+                     WhoIsmove();
+                 }
+             }
+         }
+     }*/
+    private void WhoIsmove() {
+        while (!playerOne.allShipIsDead() || !playerTwo.allShipIsDead()) {
+            if (playerOneGo) {
+                Cell cell = playerOne.whereShot(playerOneLastShot);
+                System.out.println("One " + cell.getX() + " " + cell.getY());
+                checkShot(playerOne, playerTwo, cell);
+            }else if (playerTwoGo) {
+                Cell cell = playerTwo.whereShot(playerTwoLastShot);
+                System.out.println("Two"+cell.getX()+" " +cell.getY());
+                checkShot( playerTwo,playerOne, cell);
             }
         }
     }
 
-    private boolean checkShot(Player One, Player Two, Cell cell) {
+
+    private void checkShot(Player One, Player Two, Cell cell) {
         if (Two.hit(cell)) {
             if (Two.isSubarineMineOrMinesweeper(cell)) {
                 notShip(One, Two, cell);
-            } else {
-               return true;
             }
+
+            if (playerOneGo){
+                playerOneLastShot=true;
+                playerTwoLastShot=false;
+            } else if(playerTwoGo){
+                playerTwoLastShot=true;
+                playerOneLastShot=false;
+            }
+        } else {
+            redefinition();
         }
-        return false;
     }
 
     private void finish() {
@@ -106,10 +129,9 @@ public class LogicGame {
         if (two.isMine(cell)) {
             two.addCellShip(one.randomPointShip());
             redefinition();
-            WhoIsmove();
         } else if (two.isSubmarine(cell)) {
             redefinition();
-            checkShot(two, one, cell);
+           // checkShot(two, one, cell);
         } else if (two.isMineswepeer(cell)) {
             redefinition();
             two.addMineCell(one.giveMineCell());

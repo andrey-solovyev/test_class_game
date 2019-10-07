@@ -112,21 +112,18 @@ public boolean isMineswepeer(int x,int y){
     }
 
     public Cell randomPoint() {
-    boolean check = true;
+        int q=0;
     Random random = new Random();
-    while (check) {
         int i = random.nextInt(10);
         if (!ships[i].isDead()) {
-            int q = random.nextInt(ships[i].getSize());
+             q = random.nextInt(ships[i].getSize());
             if (ships[i].checkCell(q)) {
-                check = false;
-                return ships[i].getCell(q);
+               randomPoint();
 
             }
         }
 
-    }
-    return null;
+    return new Cell(i,q);
 }
 public boolean deadAllShip(){
         for (int i=0;i<ships.length;i++){
