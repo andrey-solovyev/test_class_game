@@ -1,9 +1,12 @@
 package com.company.Player;
 
+import com.company.Arms.Ship;
 import com.company.Field.Cell;
 
 public interface Player {
     boolean hit(Cell cell);
+    Ship isDeadShip(Cell cell);
+    void giveDeadShip(Ship ship);
     boolean isSubarineMineOrMinesweeper(Cell cell);
     boolean isSubmarine(Cell cell);
     boolean isMine(Cell cell);

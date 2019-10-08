@@ -69,10 +69,14 @@ public class Ship implements Common {
     }
 
     public boolean isDead() {
-        if (healthy == 0) {
-            return true;
+        for (int i = 0; i < ships_cells.length; i++) {
+            if (ships_cells[i].isShot()){
+                continue;
+            } else {
+                return false;
+            }
         }
-        return false;
+        return true;
     }
 
     public boolean isVertically() {

@@ -20,56 +20,74 @@ public class Robot implements Player {
     private Color colorShot = Color.RED;
     private int howMuchShot = 0;//it is for the second shot and other
     private Cell lastShot;
-    private ArrayList<Cell> cellShot=new ArrayList<>();
+    private ArrayList<Cell> cellShot = new ArrayList<>();
+    private int draw = 0;
+
+    private void draw() {
+        for (int i = 0; i < game_field.getGame_field().length; i++) {
+            for (int k = 0; k < game_field.getGame_field().length; k++) {
+                if (game_field.getGame_field()[i][k].isShot()) {
+                    System.out.print("#");
+                } else {
+                    System.out.print("*");
+                }
+
+            }
+            System.out.println();
+        }
+    }
 
     public Cell whereShot(boolean islastShot) {
         hey();
         if (islastShot) {
             howMuchShot = +1;
             if (howMuchShot == 2) {
-                anotherQueue(cellShot.get(cellShot.size()-2));
-               if (game_field.getGame_field()[queue.peek().getX()-1][queue.peek().getY()-1].isShot()){
-                   queue.pop();
-               }
-                cellShot.add(queue.peek());
-                game_field.getGame_field()[queue.peek().getX()-1][queue.peek().getY()-1].setShot(true);
-                return lastShot = queue.pop();
-            }
-          if (queue.isEmpty()){
-              if (howMuchShot==1){
-                doQueue(lastShot.getX(),lastShot.getY());
-                  if (queue.isEmpty()){
-                      return randomShot();
-                  }
-                game_field.getGame_field()[lastShot.getX()-1][lastShot.getY()-1].setShot(true);
-                if (game_field.getGame_field()[queue.peek().getX()-1][queue.peek().getY()-1].isShot()){
+                anotherQueue(cellShot.get(cellShot.size() - 2));
+                if (game_field.getGame_field()[queue.peek().getX() - 1][queue.peek().getY() - 1].isShot()) {
                     queue.pop();
                 }
                 cellShot.add(queue.peek());
-                game_field.getGame_field()[queue.peek().getX()-1][queue.peek().getY()-1].setShot(true);
-                return lastShot=queue.pop();
-            }}
+                game_field.getGame_field()[queue.peek().getX() - 1][queue.peek().getY() - 1].setShot(true);
+                return lastShot = queue.pop();
+            }
+            if (queue.isEmpty()) {
+                 doQueue(lastShot.getX(), lastShot.getY());
+                if (queue.isEmpty()) {
+                    return randomShot();
+                }
+                game_field.getGame_field()[lastShot.getX() - 1][lastShot.getY() - 1].setShot(true);
+                if (game_field.getGame_field()[queue.peek().getX() - 1][queue.peek().getY() - 1].isShot()) {
+                    queue.pop();
+                }
+                cellShot.add(queue.peek());
+                game_field.getGame_field()[queue.peek().getX() - 1][queue.peek().getY() - 1].setShot(true);
+                return lastShot = queue.pop();
+
+            }
         }
         if (!queue.isEmpty()) {
-            howMuchShot=0;
-            if (queue.peek().getX()==11 ||queue.peek().getY()==11){
+            if (queue.peek().getX() == 11 || queue.peek().getY() == 11) {
                 queue.pop();
                 whereShot(false);
             }
 
             cellShot.add(queue.peek());
-            game_field.getGame_field()[queue.peek().getX()-1][queue.peek().getY()-1].setShot(true);
+            game_field.getGame_field()[queue.peek().getX() - 1][queue.peek().getY() - 1].setShot(true);
             return lastShot = queue.pop();
         }
         howMuchShot = 0;
         return randomShot();
     }
-private void hey(){
-        for (int i=0;i<queue.size();i++){
-            System.out.println(queue.get(i).getX()+"  "+queue.get(i).getY()+" ");
+
+
+    private void hey() {
+        for (int i = 0; i < queue.size(); i++) {
+            System.out.println(queue.get(i).getX() + "  " + queue.get(i).getY() + " ");
         }
-}
+    }
+
     private Cell randomShot() {
+        howMuchShot = 0;
         queue.clear();
         Random random = new Random();
         int i = random.nextInt(10);
@@ -78,13 +96,97 @@ private void hey(){
         if (lastShot.isShot()) {
             return randomShot();
         }
-      //  System.out.println(i+" "+k);
+        //  System.out.println(i+" "+k);
 
         cellShot.add(lastShot);
-         game_field.getGame_field()[i][k].setShot(true);
+        game_field.getGame_field()[i][k].setShot(true);
         return lastShot;
     }
 
+    private void outline(Ship ship) {
+
+        for (int i = 0; i < ship.getShips_cells().length; i++) {
+            int x = ship.getCell(i).getX();
+            int y = ship.getCell(i).getY();
+            if (ship.getSize() == 1) {
+                outlineY(ship.getShips_cells()[0].getX(), ship.getCell(0).getY());
+                if (x != 1) {
+                    game_field.getGame_field()[x - 2][y - 1].setShot(true);
+                    outlineY(x - 1, y);
+                }
+                if (x != 10) {
+                    game_field.getGame_field()[x][y - 1].setShot(true);
+                    outlineY(x + 1, y);
+                }
+                break;
+            }
+            if (!ship.isVertically()) {
+                if (x != 1 && i == 0) {
+                    game_field.getGame_field()[x - 2][y - 1].setShot(true);
+                    outlineY(x - 1, y);
+                }
+                if (i != ship.getShips_cells().length - 1) {
+                    outlineY(x, y);
+                } else {
+                    if (x != 10) {
+                        game_field.getGame_field()[x][y - 1].setShot(true);
+                        outlineY(x + 1, y);
+                    }
+                }
+            } else {
+                if (y != 1 && i == 0) {
+                    if (y-1==ship.getCell(i+1).getY()){
+                        game_field.getGame_field()[x - 1][y - 2].setShot(true);
+                    } else {
+                        game_field.getGame_field()[x - 1][y - 2].setShot(true);
+                        outlineX(x, y - 1);
+                    }
+                } else if (i != ship.getShips_cells().length - 1) {
+                    outlineX(x, y);
+                } else {
+                    if (y != 10) {
+                        game_field.getGame_field()[x - 1][y].setShot(true);
+                        outlineX(x, y + 1);
+                    }
+                }
+
+            }
+
+        }
+        System.out.println(ship.getSize()+" size "+ship.getCell(0).getX()+" "+ship.getCell(0).getY()+" first "+ship.getCell(ship.getSize()-1).getX()+" "+ship.getCell(0).getY()+ship.getCell(ship.getSize()-1).getY());
+        draw();
+    }
+
+    private void outlineY(int x, int y) {
+        if (y != 1) {
+            game_field.getGame_field()[x][y - 2].setShot(true);
+        }
+        if (y != 10) {
+            game_field.getGame_field()[x][y].setShot(true);
+        }
+    }
+
+    private void outlineX(int x, int y) {
+        if (x != 1) {
+            game_field.getGame_field()[x - 2][y ].setShot(true);
+        }
+        if (x != 10) {
+            game_field.getGame_field()[x][y].setShot(true);
+        }
+    }
+
+    @Override
+    public Ship isDeadShip(Cell cell) {
+        return arms.isDeadShip(cell);
+    }
+
+    @Override
+    public void giveDeadShip(Ship ship) {
+        if (ship != null) {
+            outline(ship);
+            System.out.println("Enter");
+        }
+    }
 
     @Override
     public boolean allShipIsDead() {
@@ -134,7 +236,7 @@ private void hey(){
     @Override
     public void addCellShip(Cell cell) {
         queue.clear();
-        System.out.println(cell.getX()+" "+cell.getY());
+        System.out.println(cell.getX() + " " + cell.getY());
         doQueue(cell.getX(), cell.getY());
     }
 
@@ -150,7 +252,7 @@ private void hey(){
     }
 
     private void doQueue(int x, int y) {
-        if (x + 1 <= 10 && x - 1 >= 1 && y + 1 <= 10 && y - 1 >= 1 ) {
+        if (x + 1 <= 10 && x - 1 >= 1 && y + 1 <= 10 && y - 1 >= 1) {
             queue.push(new Cell(x, y - 1));
             queue.push(new Cell(x + 1, y));
             queue.push(new Cell(x, y + 1));

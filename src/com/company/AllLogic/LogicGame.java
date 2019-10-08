@@ -84,7 +84,7 @@ public class LogicGame {
          }
      }*/
     private void WhoIsmove() {
-        while (!playerOne.allShipIsDead() || !playerTwo.allShipIsDead()) {
+        while (!playerOne.allShipIsDead() && !playerTwo.allShipIsDead()) {
             if (playerOneGo) {
                 Cell cell = playerOne.whereShot(playerOneLastShot);
                 System.out.println("One " + cell.getX() + " " + cell.getY());
@@ -95,6 +95,7 @@ public class LogicGame {
                 checkShot( playerTwo,playerOne, cell);
             }
         }
+        finish();
     }
 
 
@@ -103,6 +104,7 @@ public class LogicGame {
             if (Two.isSubarineMineOrMinesweeper(cell)) {
                 notShip(One, Two, cell);
             }
+            One.giveDeadShip(Two.isDeadShip(cell));
 
             if (playerOneGo){
                 playerOneLastShot=true;
