@@ -11,7 +11,6 @@ public interface Player {
     boolean isSubmarine(Cell cell);
     boolean isMine(Cell cell);
     boolean isMineswepeer(Cell cell);
-   // void addCellIfцMine(Cell cell);
     Cell whereShot(boolean lastShot);
     Cell randomPointShip();
     void addCellShip(Cell cell);

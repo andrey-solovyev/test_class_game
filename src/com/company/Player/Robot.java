@@ -39,6 +39,7 @@ public class Robot implements Player {
 
     public Cell whereShot(boolean islastShot) {
         hey();
+        draw();
         if (islastShot) {
             howMuchShot = +1;
             if (howMuchShot == 2) {
@@ -153,8 +154,8 @@ public class Robot implements Player {
             }
 
         }
-        System.out.println(ship.getSize()+" size "+ship.getCell(0).getX()+" "+ship.getCell(0).getY()+" first "+ship.getCell(ship.getSize()-1).getX()+" "+ship.getCell(0).getY()+ship.getCell(ship.getSize()-1).getY());
-        draw();
+       // System.out.println(ship.getSize()+" size "+ship.getCell(0).getX()+" "+ship.getCell(0).getY()+" first "+ship.getCell(ship.getSize()-1).getX()+" "+ship.getCell(0).getY()+ship.getCell(ship.getSize()-1).getY());
+     //   draw();
     }
 
     private void outlineY(int x, int y) {

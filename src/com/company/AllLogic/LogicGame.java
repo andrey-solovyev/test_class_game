@@ -105,7 +105,6 @@ public class LogicGame {
                 notShip(One, Two, cell);
             }
             One.giveDeadShip(Two.isDeadShip(cell));
-
             if (playerOneGo){
                 playerOneLastShot=true;
                 playerTwoLastShot=false;
@@ -117,6 +116,7 @@ public class LogicGame {
             redefinition();
         }
     }
+
 
     private void finish() {
         if (playerOneGo) {
@@ -133,7 +133,7 @@ public class LogicGame {
             redefinition();
         } else if (two.isSubmarine(cell)) {
             redefinition();
-           // checkShot(two, one, cell);
+            checkShot(two, one, cell);
         } else if (two.isMineswepeer(cell)) {
             redefinition();
             two.addMineCell(one.giveMineCell());

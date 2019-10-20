@@ -28,4 +28,8 @@ public class Mine implements Common  {
         return false;
     }
 
+    @Override
+    public boolean isDead() {
+        return false;
+    }
 }

@@ -17,5 +17,10 @@ public class Minesweeper implements Common {
         return false;
     }
 
+    @Override
+    public boolean isDead() {
+        return false;
+    }
+
 
 }

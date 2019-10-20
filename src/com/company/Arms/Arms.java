@@ -20,6 +20,7 @@ public class Arms {
     private Submarine submarine;
     private Ship[] ships;
     private Minesweeper minesweeper;
+    private int howMuchShip=10;
 
 
     public Arms(Ship ship_4, Ship ship_3_1, Ship ship_3_2, Ship ship_2_1, Ship ship_2_2, Ship ship_2_3, Ship ship_1_1, Ship ship_1_2, Ship ship_1_3, Ship ship_1_4, Mine mine, Submarine submarine, Minesweeper minesweeper) {
@@ -97,7 +98,7 @@ public class Arms {
     }
 
     public boolean isSubmarine(int x, int y) {
-        if (getArms()[10].check(x, y)) {
+        if (getArms()[10].check(x, y) && getArms()[10].) {
             return true;
         }
         return false;
@@ -114,6 +115,7 @@ public class Arms {
     public Ship isDeadShip(Cell cell) {
         for (int i = 0; i < ships.length; i++) {
             if (ships[i].check(cell.getX(),cell.getY()) && ships[i].isDead()) {
+                howMuchShip--;
                 return ships[i];
             }
         }
@@ -145,6 +147,9 @@ public class Arms {
 
     public boolean deadAllShip() {
         for (int i = 0; i < ships.length; i++) {
+            if (howMuchShip==0){
+                return true;
+            }
             if (!ships[i].isDead()) {
                 return false;
             }
