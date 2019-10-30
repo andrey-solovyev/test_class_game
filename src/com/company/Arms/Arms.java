@@ -98,7 +98,7 @@ public class Arms {
     }
 
     public boolean isSubmarine(int x, int y) {
-        if (getArms()[10].check(x, y) && getArms()[10].) {
+        if (getArms()[10].check(x, y) && getArms()[10].isDead()) {
             return true;
         }
         return false;

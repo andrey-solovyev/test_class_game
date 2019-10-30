@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 
 public class Minesweeper implements Common {
     private Cell Mineswepeer;
+    private boolean isDead=false;
     public Minesweeper(int x, int y) {
         this.Mineswepeer=new Cell(x,y);
         Mineswepeer.setCell_color(Color.ORANGE);
@@ -12,6 +13,7 @@ public class Minesweeper implements Common {
     @Override
     public boolean check(int x,int y){
         if (Mineswepeer.getX()==x && Mineswepeer.getY()==y){
+            isDead=true;
             return true;
         }
         return false;
@@ -19,7 +21,7 @@ public class Minesweeper implements Common {
 
     @Override
     public boolean isDead() {
-        return false;
+        return isDead;
     }
 
 

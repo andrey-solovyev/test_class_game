@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class Submarine implements Common{
     private Cell submarine;
-    private boolean healthy=true;
+    private boolean isDead=false;
     public Submarine( int x, int y) {
         this.submarine = new Cell(x,y);
 
@@ -25,7 +25,7 @@ public class Submarine implements Common{
     @Override
     public boolean check(int x, int y) {
         if (submarine.getX()==x && submarine.getY()==y){
-
+            isDead=true;
             return true;
         }
         return false;
@@ -33,6 +33,6 @@ public class Submarine implements Common{
 
     @Override
     public boolean isDead() {
-        return false;
+        return isDead;
     }
 }
