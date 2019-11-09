@@ -175,7 +175,7 @@ public class Robot implements Player {
             game_field.getGame_field()[x][y].setShot(true);
         }
     }*/
-private static void outline(Ship ship) {
+private  void outline(Ship ship) {
 
     for (int i = 0; i < ship.getShips_cells().length; i++) {
         int x = ship.getCell(i).getX();
@@ -221,7 +221,7 @@ private static void outline(Ship ship) {
 
 }
 
-    private static void outlineY(int x, int y) {
+    private  void outlineY(int x, int y) {
         if (x != 1) {
             game_field.getGame_field()[x - 1][y-1].setShot(true);
         }
@@ -230,7 +230,7 @@ private static void outline(Ship ship) {
         }
     }
 
-    private static void outlineX(int x, int y) {
+    private  void outlineX(int x, int y) {
         if (y != 0) {
             game_field.getGame_field()[x - 1][y - 1].setShot(true);
         }

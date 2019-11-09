@@ -106,6 +106,7 @@ public class User implements Player {
         System.out.println("where");
         int x = scanner.nextInt();
         int y = scanner.nextInt();
+
         return new Cell(x, y);
     }
 

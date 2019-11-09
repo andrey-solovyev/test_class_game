@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class LogicGame {
     private Game games;
-    private boolean haveUser = false;
+    private boolean haveUser =  false;
     private boolean playerOneGo = false;
     private boolean playerTwoGo = false;
     private boolean playerOneLastShot=false;
@@ -133,7 +133,7 @@ public class LogicGame {
             redefinition();
         } else if (two.isSubmarine(cell)) {
             redefinition();
-            checkShot(two, one, cell);
+          //  checkShot(two, one, cell);
         } else if (two.isMineswepeer(cell)) {
             redefinition();
             two.addMineCell(one.giveMineCell());

@@ -17,6 +17,7 @@ public class Ship implements Common {
         this.vertically = vertically;
         //paint(ships_cells);
         this.ships_cells=new Cell[size];
+        healthy=size;
         input(x, y, dx, dy);
     }
 
@@ -69,6 +70,9 @@ public class Ship implements Common {
     }
 
     public boolean isDead() {
+        if (healthy==0){
+            return true;
+        }
         for (int i = 0; i < ships_cells.length; i++) {
             if (ships_cells[i].isShot()){
                 continue;
